@@ -8,15 +8,19 @@ const userService = new UserService();
 UserController.get("/", parseToken, async (req, res) => {
   const user = await userService.getUserIdentity(req.user.sub);
   if (!user) {
-    return res
-      .status(404)
-      .send({ status: "success", message: "user not found" });
+    return res.status(404).send({ message: "user not found" });
   }
-  return res.status(200).send({ status: "success" });
+  return res.status(200).send({});
 });
 
 UserController.post("/", parseToken, async (req: Request, res: Response) => {
-  return res.status(200).send({ status: "success" });
+  const user = await userService.getUserIdentity(req.user.sub);
+  if (user) {
+    return res.status(400).send({ message: "user already exists" });
+  }
+
+  await userService.createUser(req.user.sub, req.body);
+  return res.status(200).send({});
 });
 
 export default UserController;

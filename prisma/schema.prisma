@@ -14,3 +14,9 @@ model UserIdentity {
     id       Int    @id @default(autoincrement())
     auth0Sub String @unique @db.VarChar(255)
 }
+
+model UserData {
+    id        Int    @id
+    firstName String @db.VarChar(255)
+    lastName  String @db.VarChar(255)
+}
