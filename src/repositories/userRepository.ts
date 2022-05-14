@@ -11,6 +11,9 @@ export class UserRepository {
       where: { auth0Sub: sub },
     });
   }
+  async getUserData(id: number) {
+    return this.prismaClient.userData.findUnique({ where: { id: id } });
+  }
 
   async createUserIdentity(sub: string) {
     return this.prismaClient.userIdentity.create({ data: { auth0Sub: sub } });
